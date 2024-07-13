@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'Questions.dart';
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -25,6 +25,19 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon>scorekeeper = [
+  ];
+  List<Questions>Questionbank=[
+    Questions(q:'You can lead a cow down stairs but not up stairs.', a:true),
+    Questions(q:'Approximately one quarter of human bones are in the feet.', a:false),
+    Questions(q:'A slug\'s blood is green.', a:false),
+  ];
+  int count =0;
+  void checker(bool userans){
+      if(userans == Questionbank[count].answer){
+
+      }
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                Questionbank[count].question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -50,9 +63,10 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.green)
+              ),
               child: Text(
                 'True',
                 style: TextStyle(
@@ -61,6 +75,18 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                if(Questionbank[count].answer==true){
+                  print('got it right');
+                }
+                else{
+                  print('you got it wrong');
+                }
+                setState(() {
+                  count++;
+                  scorekeeper.add(Icon(
+                      color: Colors.green,
+                      Icons.check),);
+                });
                 //The user picked true.
               },
             ),
@@ -69,8 +95,10 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
+            child: TextButton(
+              style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll<Color>(Colors.red)
+              ),
               child: Text(
                 'False',
                 style: TextStyle(
@@ -79,19 +107,44 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                if(Questionbank[count].answer==false){
+                  print('got it right');
+                }
+                else{
+                  print('you got it wrong');
+                }
+                setState(() {
+                  count++;
+                  scorekeeper.add(Icon(
+                      color:Colors.red,
+                      Icons.close),);
+                });
                 //The user picked false.
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children:scorekeeper,
+        )
       ],
     );
   }
 }
 
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
+class FormContainerWidget extends StatefulWidget {
+  const FormContainerWidget({super.key});
+
+  @override
+  State<FormContainerWidget> createState() => _FormContainerWidgetState();
+}
+
+class _FormContainerWidgetState extends State<FormContainerWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+
+
